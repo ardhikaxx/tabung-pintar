@@ -24,6 +24,7 @@ const modeConfig = {
 
 export default function Home() {
   const [income, setIncome] = useState<string>("");
+  const [targetSavings, setTargetSavings] = useState<string>("");
   const [result, setResult] = useState<SavingsResult | null>(null);
   const [mode, setMode] = useState<"conservative" | "balanced" | "aggressive">(
     "balanced"
@@ -48,6 +49,7 @@ export default function Home() {
 
   const calculateSavings = () => {
     const incomeValue = parseFloat(income.replace(/[^0-9]/g, ""));
+    const targetValue = parseFloat(targetSavings.replace(/[^0-9]/g, ""));
     if (!incomeValue || incomeValue <= 0) return;
 
     setIsCalculating(true);
@@ -70,6 +72,7 @@ export default function Home() {
 
   const resetCalculator = () => {
     setIncome("");
+    setTargetSavings("");
     setResult(null);
   };
 
@@ -95,6 +98,9 @@ export default function Home() {
         { name: "Keperluan", value: result.needs, color: "#22c55e" },
       ]
     : [];
+
+  const targetValue = targetSavings ? parseFloat(targetSavings.replace(/[^0-9]/g, "")) : 0;
+  const progress = result ? Math.min((result.savings / (targetValue || result.savings)) * 100, 100) : 0;
 
   return (
     <div
@@ -168,6 +174,46 @@ export default function Home() {
                     setIncome(formatted);
                   } else {
                     setIncome("");
+                  }
+                }}
+                onKeyPress={handleKeyPress}
+                className={`w-full pl-12 pr-4 py-4 text-lg border rounded-xl focus:ring-2 focus:ring-blue-500 ${
+                  darkMode 
+                    ? "border-gray-600 bg-gray-700 text-white" 
+                    : "border-gray-300 bg-gray-50 text-gray-900"
+                }`}
+              />
+            </div>
+          </div>
+
+          <div className="mb-6">
+            <label
+              htmlFor="targetSavings"
+              className={`block text-sm font-medium mb-2 ${
+                darkMode ? "text-gray-300" : "text-gray-700"
+              }`}
+            >
+              Target Tabungan (Opsional)
+            </label>
+            <div className="relative">
+              <span className={`absolute left-4 top-1/2 -translate-y-1/2 text-lg ${
+                darkMode ? "text-gray-400" : "text-gray-500"
+              }`}>
+                Rp
+              </span>
+              <input
+                id="targetSavings"
+                type="text"
+                inputMode="numeric"
+                placeholder="Contoh: 5.000.000"
+                value={targetSavings}
+                onChange={(e) => {
+                  const raw = e.target.value.replace(/[^0-9]/g, "");
+                  if (raw) {
+                    const formatted = new Intl.NumberFormat("id-ID").format(parseInt(raw));
+                    setTargetSavings(formatted);
+                  } else {
+                    setTargetSavings("");
                   }
                 }}
                 onKeyPress={handleKeyPress}
@@ -277,6 +323,25 @@ export default function Home() {
                 </PieChart>
               </ResponsiveContainer>
             </div>
+
+            {targetValue > 0 && (
+              <div className="mb-8">
+                <div className="flex justify-between text-sm mb-2">
+                  <span className={darkMode ? "text-gray-300" : "text-gray-600"}>
+                    Progres ke Target
+                  </span>
+                  <span className="font-bold text-blue-500">
+                    {progress.toFixed(1)}%
+                  </span>
+                </div>
+                <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-blue-600 transition-all duration-500"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              </div>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className={`rounded-xl p-6 text-center ${
