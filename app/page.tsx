@@ -27,32 +27,22 @@ export default function Home() {
     "balanced"
   );
   const [isCalculating, setIsCalculating] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("darkMode");
+      return saved !== null ? JSON.parse(saved) : true;
+    }
+    return true;
+  });
 
   useEffect(() => {
-    const initializeDarkMode = () => {
-      const savedMode = localStorage.getItem("darkMode");
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const initialMode = savedMode !== null ? JSON.parse(savedMode) : prefersDark;
-      setDarkMode(initialMode);
-      if (initialMode) {
-        document.documentElement.classList.add("dark");
-      }
-      setIsHydrated(true);
-    };
-    initializeDarkMode();
-  }, []);
-
-  useEffect(() => {
-    if (!isHydrated) return;
-    localStorage.setItem("darkMode", JSON.stringify(darkMode));
     if (darkMode) {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, [darkMode, isHydrated]);
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+  }, [darkMode]);
 
   const calculateSavings = () => {
     const incomeValue = parseFloat(income.replace(/[^0-9]/g, ""));
