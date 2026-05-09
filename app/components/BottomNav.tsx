@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Calculator, PieChart } from "lucide-react";
+import { Calculator, PieChart, Target, Shield } from "lucide-react";
 
 export default function BottomNav() {
   const pathname = usePathname();
@@ -10,6 +10,8 @@ export default function BottomNav() {
   const navItems = [
     { href: "/", label: "Kalkulator", icon: Calculator },
     { href: "/standard", label: "50/30/20", icon: PieChart },
+    { href: "/target", label: "Target", icon: Target },
+    { href: "/emergency", label: "Darurat", icon: Shield },
   ];
 
   return (

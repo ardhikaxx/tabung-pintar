@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import BottomNav from "../components/BottomNav";
+import { useSwipeNavigation } from "../hooks/useSwipeNavigation";
 
 interface StandardResult {
   income: number;
@@ -18,14 +19,13 @@ export default function StandardPage() {
   const [income, setIncome] = useState<string>("");
   const [result, setResult] = useState<StandardResult | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
-  const [darkMode, setDarkMode] = useState(true);
-
-  useEffect(() => {
-    const savedMode = localStorage.getItem("darkMode");
-    if (savedMode !== null) {
-      setDarkMode(JSON.parse(savedMode));
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("darkMode");
+      return saved ? JSON.parse(saved) : true;
     }
-  }, []);
+    return true;
+  });
 
   useEffect(() => {
     if (darkMode) {
@@ -35,6 +35,8 @@ export default function StandardPage() {
     }
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [darkMode]);
+
+  const swipeHandlers = useSwipeNavigation();
 
   const calculateStandard = () => {
     const incomeValue = parseFloat(income.replace(/[^0-9]/g, ""));
@@ -66,11 +68,14 @@ export default function StandardPage() {
   };
 
   return (
-    <div className={`flex flex-col flex-1 items-center justify-center font-sans min-h-screen ${
-      darkMode 
-        ? "bg-gradient-to-br from-gray-900 to-gray-800" 
-        : "bg-gradient-to-br from-blue-50 to-indigo-100"
-    }`}>
+    <div
+      {...swipeHandlers}
+      className={`flex flex-col flex-1 items-center justify-center font-sans min-h-screen ${
+        darkMode
+          ? "bg-linear-to-br from-gray-900 to-gray-800"
+          : "bg-linear-to-br from-blue-50 to-indigo-100"
+      }`}
+    >
       <main className="flex flex-1 w-full max-w-2xl flex-col items-start py-20 px-6">
         <div className="w-full flex justify-end mb-4">
           <button
@@ -125,9 +130,17 @@ export default function StandardPage() {
                 id="income"
                 type="text"
                 inputMode="numeric"
-                placeholder="Contoh: 2000000"
+                placeholder="Contoh: 2.000.000"
                 value={income}
-                onChange={(e) => setIncome(e.target.value)}
+                onChange={(e) => {
+                  const raw = e.target.value.replace(/[^0-9]/g, "");
+                  if (raw) {
+                    const formatted = new Intl.NumberFormat("id-ID").format(parseInt(raw));
+                    setIncome(formatted);
+                  } else {
+                    setIncome("");
+                  }
+                }}
                 className={`w-full pl-12 pr-4 py-4 text-lg border rounded-xl focus:ring-2 focus:ring-blue-500 ${
                   darkMode 
                     ? "border-gray-600 bg-gray-700 text-white" 
