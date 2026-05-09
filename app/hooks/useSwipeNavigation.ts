@@ -23,7 +23,7 @@ export function useSwipeNavigation() {
         router.push(PAGE_ORDER[currentIndex - 1]);
       }
     },
-    preventDefaultTouchmoveEvent: true,
+    preventScrollOnSwipe: true,
     trackMouse: false,
   });
 
