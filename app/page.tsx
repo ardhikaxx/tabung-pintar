@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 
 interface SavingsResult {
   income: number;
@@ -26,6 +27,23 @@ export default function Home() {
     "balanced"
   );
   const [isCalculating, setIsCalculating] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("darkMode");
+      if (saved !== null) return JSON.parse(saved);
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
 
   const calculateSavings = () => {
     const incomeValue = parseFloat(income.replace(/[^0-9]/g, ""));
@@ -68,10 +86,43 @@ export default function Home() {
     }
   };
 
+  const chartData = result
+    ? [
+        { name: "Menabung", value: result.savings, color: "#3b82f6" },
+        { name: "Keperluan", value: result.needs, color: "#22c55e" },
+      ]
+    : [];
+
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 font-sans min-h-screen">
-      <main className="flex flex-1 w-full max-w-2xl flex-col items-center py-20 px-6">
-        <div className="text-center mb-10">
+      <main className="flex flex-1 w-full max-w-2xl flex-col items-start py-20 px-6">
+        <div className="w-full flex justify-end mb-4">
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="p-2 rounded-lg bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-shadow"
+            aria-label="Toggle dark mode"
+          >
+            {darkMode ? (
+              <svg
+                className="w-6 h-6 text-yellow-500"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" />
+              </svg>
+            ) : (
+              <svg
+                className="w-6 h-6 text-gray-700"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+              </svg>
+            )}
+          </button>
+        </div>
+
+        <div className="text-center mb-10 w-full">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-3">
             TabungPintar
           </h1>
@@ -155,10 +206,39 @@ export default function Home() {
         </div>
 
         {result && (
-          <div className="w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 animate-fadeIn">
+          <div className="w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 mb-6 animate-fadeIn">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
               Hasil Perhitungan
             </h2>
+
+            <div className="h-64 mb-6">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={chartData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={100}
+                    paddingAngle={5}
+                    dataKey="value"
+                  >
+                    {chartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: darkMode ? "#1f2937" : "#ffffff",
+                      border: "none",
+                      borderRadius: "8px",
+                    }}
+                    formatter={(value: unknown) => formatCurrency(Number(value))}
+                  />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-blue-50 dark:bg-blue-900/30 rounded-xl p-6 text-center">
