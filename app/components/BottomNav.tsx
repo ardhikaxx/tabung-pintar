@@ -21,18 +21,19 @@ export default function BottomNav() {
           const Icon = item.icon;
           return (
             <Link
-              key={item.href}
-              href={item.href}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all ${
-                pathname === item.href
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-700 dark:text-gray-300 hover:bg-white/20 dark:hover:bg-gray-700/30"
-              }`}
+            key={item.href}
+            href={item.href}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all ${
+              pathname === item.href
+                ? "bg-blue-600 text-white"
+                : "text-gray-700 dark:text-gray-300 hover:bg-white/20 dark:hover:bg-gray-700/30"
+            }`}
             >
-              <Icon className="w-5 h-5" />
-              <span className="text-sm font-medium">{item.label}</span>
-            </Link>
-          );
+            <Icon className="w-5 h-5" />
+            <span className={`text-sm font-medium ${pathname === item.href ? "" : "hidden"}`}>
+              {item.label}
+            </span>
+            </Link>          );
         })}
       </div>
     </nav>
