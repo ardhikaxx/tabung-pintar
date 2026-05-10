@@ -96,9 +96,6 @@ export default function Home() {
       ]
     : [];
 
-  const targetValue = targetSavings ? parseFloat(targetSavings.replace(/[^0-9]/g, "")) : 0;
-  const progress = result ? Math.min((result.savings / (targetValue || result.savings)) * 100, 100) : 0;
-
   return (
     <div
       {...swipeHandlers}
