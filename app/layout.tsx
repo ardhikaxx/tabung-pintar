@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ThemeToggle from "./components/ThemeToggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,7 +51,10 @@ export default function RootLayout({
         <meta name="theme-color" content="#0a0a0a" />
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ThemeToggle />
+        {children}
+      </body>
     </html>
   );
 }

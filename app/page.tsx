@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 import BottomNav from "./components/BottomNav";
 import { useSwipeNavigation } from "./hooks/useSwipeNavigation";
@@ -29,22 +29,6 @@ export default function Home() {
     "balanced"
   );
   const [isCalculating, setIsCalculating] = useState(false);
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("darkMode");
-      return saved ? JSON.parse(saved) : true;
-    }
-    return true;
-  });
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-    localStorage.setItem("darkMode", JSON.stringify(darkMode));
-  }, [darkMode]);
 
   const calculateSavings = () => {
     const incomeValue = parseFloat(income.replace(/[^0-9]/g, ""));
@@ -99,60 +83,28 @@ export default function Home() {
   return (
     <div
       {...swipeHandlers}
-      className={`flex flex-col flex-1 items-center justify-center font-sans min-h-screen ${
-        darkMode
-          ? "bg-linear-to-br from-gray-900 to-gray-800"
-          : "bg-linear-to-br from-blue-50 to-indigo-100"
-      }`}
+      className="flex flex-col flex-1 items-center justify-center font-sans min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800"
     >
       <main className="flex flex-1 w-full max-w-2xl flex-col items-start py-20 px-6">
-        <div className="w-full flex justify-end mb-4">
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className={`p-2 rounded-lg shadow-md hover:shadow-lg transition-shadow ${
-              darkMode ? "bg-gray-800 text-yellow-400" : "bg-white text-gray-700"
-            }`}
-            aria-label="Toggle dark mode"
-          >
-            {darkMode ? (
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" />
-              </svg>
-            ) : (
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-              </svg>
-            )}
-          </button>
-        </div>
-
         <div className="text-center mb-10 w-full">
-          <h1 className={`text-4xl font-bold mb-3 ${
-            darkMode ? "text-white" : "text-gray-900"
-          }`}>
+          <h1 className="text-4xl font-bold mb-3 text-gray-900 dark:text-white">
             TabungPintar
           </h1>
-          <p className={darkMode ? "text-gray-300" : "text-gray-600"}>
+          <p className="text-gray-600 dark:text-gray-300">
             Hitung berapa persen yang ideal untuk menabung dari penghasilan Anda
           </p>
         </div>
 
-        <div className={`w-full rounded-2xl shadow-xl p-8 mb-6 ${
-          darkMode ? "bg-gray-800" : "bg-white"
-        }`}>
+        <div className="w-full rounded-2xl shadow-xl p-8 mb-6 bg-white dark:bg-gray-800">
           <div className="mb-6">
             <label
               htmlFor="income"
-              className={`block text-sm font-medium mb-2 ${
-                darkMode ? "text-gray-300" : "text-gray-700"
-              }`}
+              className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300"
             >
               Penghasilan Bersih (per bulan)
             </label>
             <div className="relative">
-              <span className={`absolute left-4 top-1/2 -translate-y-1/2 text-lg ${
-                darkMode ? "text-gray-400" : "text-gray-500"
-              }`}>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg text-gray-500 dark:text-gray-400">
                 Rp
               </span>
               <input
@@ -171,43 +123,31 @@ export default function Home() {
                   }
                 }}
                 onKeyPress={handleKeyPress}
-                className={`w-full pl-12 pr-4 py-4 text-lg border rounded-xl focus:ring-2 focus:ring-blue-500 ${
-                  darkMode 
-                    ? "border-gray-600 bg-gray-700 text-white" 
-                    : "border-gray-300 bg-gray-50 text-gray-900"
-                }`}
+                className="w-full pl-12 pr-4 py-4 text-lg border rounded-xl focus:ring-2 focus:ring-blue-500 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
               />
             </div>
           </div>
 
           <div className="mb-6">
-            <p className={`text-sm font-medium mb-3 ${
-              darkMode ? "text-gray-300" : "text-gray-700"
-            }`}>
+            <p className="text-sm font-medium mb-3 text-gray-700 dark:text-gray-300">
               Pilih Mode Menabung
             </p>
             <div className="grid grid-cols-3 gap-2">
-              {(
-                ["conservative", "balanced", "aggressive"] as const
-              ).map((m) => (
+              {(["conservative", "balanced", "aggressive"] as const).map((m) => (
                 <button
                   key={m}
                   onClick={() => setMode(m)}
                   className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${
                     mode === m
                       ? "bg-blue-600 text-white"
-                      : darkMode
-                      ? "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                      : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                   }`}
                 >
                   {modeConfig[m].label}
                 </button>
               ))}
             </div>
-            <p className={`text-xs mt-2 ${
-              darkMode ? "text-gray-400" : "text-gray-500"
-            }`}>
+            <p className="text-xs mt-2 text-gray-500 dark:text-gray-400">
               {mode === "conservative"
                 ? "20% untuk menabung, cocok untuk pemula"
                 : mode === "balanced"
@@ -227,11 +167,7 @@ export default function Home() {
             {result && (
               <button
                 onClick={resetCalculator}
-                className={`px-6 py-4 text-lg font-medium rounded-xl transition-colors ${
-                  darkMode
-                    ? "text-gray-300 bg-gray-700 hover:bg-gray-600"
-                    : "text-gray-600 bg-gray-100 hover:bg-gray-200"
-                }`}
+                className="px-6 py-4 text-lg font-medium rounded-xl transition-colors text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
               >
                 Reset
               </button>
@@ -240,12 +176,8 @@ export default function Home() {
         </div>
 
         {result && (
-          <div className={`w-full rounded-2xl shadow-xl p-8 mb-6 animate-fadeIn ${
-            darkMode ? "bg-gray-800" : "bg-white"
-          }`}>
-            <h2 className={`text-2xl font-bold mb-6 text-center ${
-              darkMode ? "text-white" : "text-gray-900"
-            }`}>
+          <div className="w-full rounded-2xl shadow-xl p-8 mb-6 animate-fadeIn bg-white dark:bg-gray-800">
+            <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
               Hasil Perhitungan
             </h2>
 
@@ -267,9 +199,10 @@ export default function Home() {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: darkMode ? "#1f2937" : "#ffffff",
+                      backgroundColor: "#1f2937",
                       border: "none",
                       borderRadius: "8px",
+                      color: "#fff",
                     }}
                     formatter={(value: unknown) => formatCurrency(Number(value))}
                   />
@@ -279,58 +212,38 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className={`rounded-xl p-6 text-center ${
-                darkMode ? "bg-blue-900/30" : "bg-blue-50"
-              }`}>
-                <p className={`text-sm mb-1 ${
-                  darkMode ? "text-blue-400" : "text-blue-600"
-                }`}>
+              <div className="rounded-xl p-6 text-center bg-blue-50 dark:bg-blue-900/30">
+                <p className="text-sm mb-1 text-blue-600 dark:text-blue-400">
                   Disarankan Menabung
                 </p>
-                <p className={`text-3xl font-bold ${
-                  darkMode ? "text-blue-300" : "text-blue-700"
-                }`}>
+                <p className="text-3xl font-bold text-blue-700 dark:text-blue-300">
                   {formatCurrency(result.savings)}
                 </p>
-                <p className={`text-sm mt-1 ${
-                  darkMode ? "text-gray-400" : "text-gray-500"
-                }`}>
+                <p className="text-sm mt-1 text-gray-500 dark:text-gray-400">
                   {result.percentage}% dari penghasilan
                 </p>
               </div>
 
-              <div className={`rounded-xl p-6 text-center ${
-                darkMode ? "bg-green-900/30" : "bg-green-50"
-              }`}>
-                <p className={`text-sm mb-1 ${
-                  darkMode ? "text-green-400" : "text-green-600"
-                }`}>
+              <div className="rounded-xl p-6 text-center bg-green-50 dark:bg-green-900/30">
+                <p className="text-sm mb-1 text-green-600 dark:text-green-400">
                   Untuk Keperluan
                 </p>
-                <p className={`text-3xl font-bold ${
-                  darkMode ? "text-green-300" : "text-green-700"
-                }`}>
+                <p className="text-3xl font-bold text-green-700 dark:text-green-300">
                   {formatCurrency(result.needs)}
                 </p>
-                <p className={`text-sm mt-1 ${
-                  darkMode ? "text-gray-400" : "text-gray-500"
-                }`}>
+                <p className="text-sm mt-1 text-gray-500 dark:text-gray-400">
                   {100 - result.percentage}% dari penghasilan
                 </p>
               </div>
             </div>
 
-            <div className={`mt-6 p-4 rounded-xl ${
-              darkMode ? "bg-gray-700" : "bg-gray-50"
-            }`}>
-              <p className={`text-sm text-center ${
-                darkMode ? "text-gray-300" : "text-gray-600"
-              }`}>
+            <div className="mt-6 p-4 rounded-xl bg-gray-50 dark:bg-gray-700">
+              <p className="text-sm text-center text-gray-600 dark:text-gray-300">
                 <span className="font-medium">Total Penghasilan:</span>{" "}
                 {formatCurrency(result.income)}
               </p>
             </div>
-</div>
+          </div>
         )}
       </main>
       <BottomNav />
