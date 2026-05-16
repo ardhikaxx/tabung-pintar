@@ -10,7 +10,6 @@ export default function ThemeToggle() {
     return window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
   
-  // Use useEffect only for class toggling, not setting state
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
@@ -24,9 +23,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className={`fixed top-4 right-4 z-50 p-2 rounded-lg shadow-md hover:shadow-lg transition-shadow ${
-        darkMode ? "bg-gray-800 text-yellow-400" : "bg-white text-gray-700"
-      }`}
+      className="fixed top-4 right-4 z-50 p-3 glass-card brutal-border text-white hover:bg-white hover:text-black transition-all"
       aria-label="Toggle dark mode"
     >
       {darkMode ? (

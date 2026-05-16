@@ -65,28 +65,28 @@ export default function EmergencyPage() {
   return (
     <div
       {...swipeHandlers}
-      className="flex flex-col flex-1 items-center justify-center font-sans min-h-screen bg-linear-to-br from-orange-50 to-red-100 dark:from-gray-900 dark:to-gray-800"
+      className="flex flex-col flex-1 items-center justify-center font-sans min-h-screen bg-neutral-900"
     >
       <main className="flex flex-1 w-full max-w-2xl flex-col items-start py-20 px-6">
         <div className="text-center mb-10 w-full">
-          <h1 className="text-4xl font-bold mb-3 text-gray-900 dark:text-white">
+          <h1 className="text-5xl font-black mb-3 tracking-tighter text-white uppercase italic">
             Dana Darurat
           </h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Hitung kebutuhan dana darurat untuk keamanan finansial
+          <p className="text-neutral-400 font-mono tracking-widest text-sm uppercase">
+            Hitung cadangan finansial Anda
           </p>
         </div>
 
-        <div className="w-full rounded-2xl shadow-xl p-8 mb-6 bg-white dark:bg-gray-800">
+        <div className="w-full glass-card brutal-border p-8 mb-6">
           <div className="mb-6">
             <label
               htmlFor="income"
-              className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300"
+              className="block text-sm font-black mb-2 text-white uppercase tracking-wider"
             >
               Penghasilan Bersih (per bulan)
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg text-gray-500 dark:text-gray-400">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-white">
                 Rp
               </span>
               <input
@@ -105,13 +105,13 @@ export default function EmergencyPage() {
                   }
                 }}
                 onKeyPress={handleKeyPress}
-                className="w-full pl-12 pr-4 py-4 text-lg border rounded-xl focus:ring-2 focus:ring-orange-500 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full pl-12 pr-4 py-4 text-lg border-2 border-white bg-transparent text-white font-bold placeholder-neutral-500 focus:outline-none"
               />
             </div>
           </div>
 
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+            <label className="block text-sm font-black mb-2 text-white uppercase tracking-wider">
               Cakupan Periode (bulan)
             </label>
             <div className="grid grid-cols-4 gap-2">
@@ -122,90 +122,51 @@ export default function EmergencyPage() {
                     setMonthsCoverage(months);
                     setTimeout(calculateEmergency, 100);
                   }}
-                  className={`py-3 px-4 rounded-lg text-sm font-semibold transition-all ${
+                  className={`py-3 px-4 border-2 transition-all font-black uppercase text-xs ${
                     monthsCoverage === months
-                      ? "bg-orange-600 text-white"
-                      : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                      ? "bg-white text-black border-white"
+                      : "bg-transparent text-white border-neutral-600 hover:border-white"
                   }`}
                 >
-                  {months} bln
+                  {months}
                 </button>
               ))}
             </div>
-            <p className="text-xs mt-2 text-gray-500 dark:text-gray-400">
-              3 bulan: minimal, 6 bulan: standar, 12 bulan: aman
-            </p>
           </div>
 
-          <div className="flex gap-3">
-            <button
-              onClick={calculateEmergency}
-              disabled={!monthlyIncome || isCalculating}
-              className="flex-1 py-4 text-lg font-semibold text-white bg-orange-600 hover:bg-orange-700 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isCalculating ? "Menghitung..." : "Hitung Dana Darurat"}
-            </button>
-            {result && (
-              <button
-                onClick={resetCalculator}
-                className="px-6 py-4 text-lg font-medium rounded-xl transition-colors text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
-              >
-                Reset
-              </button>
-            )}
-          </div>
+          <button
+            onClick={calculateEmergency}
+            disabled={!monthlyIncome || isCalculating}
+            className="w-full py-4 text-xl font-black text-black bg-orange-500 hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed uppercase italic tracking-tighter"
+          >
+            {isCalculating ? "Menghitung..." : "Hitung Dana Darurat"}
+          </button>
         </div>
 
         {result && (
-          <div className="w-full rounded-2xl shadow-xl p-8 mb-6 animate-fadeIn bg-white dark:bg-gray-800">
-            <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
-              Dana Darurat Anda
+          <div className="w-full glass-card brutal-border p-8 mb-6 animate-fadeIn">
+            <h2 className="text-3xl font-black mb-6 text-center text-white uppercase italic tracking-tighter">
+              Dana Darurat
             </h2>
 
             <div className="grid grid-cols-1 gap-4">
-              <div className="rounded-xl p-6 text-center bg-red-50 dark:bg-red-900/30">
-                <p className="text-sm mb-1 text-red-600 dark:text-red-400">
+              <div className="border-2 border-red-500 p-6 text-center">
+                <p className="text-xs font-black text-red-400 uppercase tracking-widest">
                   Total Dana Darurat
                 </p>
-                <p className="text-4xl font-bold text-red-700 dark:text-red-300">
+                <p className="text-4xl font-black text-white italic tracking-tighter">
                   {formatCurrency(result.emergencyFund)}
                 </p>
-                <p className="text-sm mt-1 text-gray-500 dark:text-gray-400">
-                  Untuk {result.monthsCoverage} bulan pengeluaran
-                </p>
               </div>
 
-              <div className="rounded-xl p-6 text-center bg-orange-50 dark:bg-orange-900/30">
-                <p className="text-sm mb-1 text-orange-600 dark:text-orange-400">
+              <div className="border-2 border-orange-500 p-6 text-center">
+                <p className="text-xs font-black text-orange-400 uppercase tracking-widest">
                   Saran Tabungan per Bulan
                 </p>
-                <p className="text-2xl font-bold text-orange-700 dark:text-orange-300">
+                <p className="text-3xl font-black text-white italic tracking-tighter">
                   {formatCurrency(result.suggestedMonthlySaving)}
                 </p>
-                <p className="text-sm mt-1 text-gray-500 dark:text-gray-400">
-                  Bisa capai dalam 12 bulan
-                </p>
               </div>
-
-              <div className="rounded-xl p-6 text-center bg-blue-50 dark:bg-blue-900/30">
-                <p className="text-sm mb-1 text-blue-600 dark:text-blue-400">
-                  Berdasarkan Penghasilan
-                </p>
-                <p className="text-xl font-bold text-blue-700 dark:text-blue-300">
-                  {formatCurrency(result.monthlyIncome)}
-                </p>
-                <p className="text-sm mt-1 text-gray-500 dark:text-gray-400">
-                  per bulan
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-6 p-4 rounded-xl bg-gray-50 dark:bg-gray-700">
-              <p className="text-sm text-center text-gray-600 dark:text-gray-300">
-                💡 Dana darurat adalah cadangan untuk keperluan mendesak
-                seperti sakit, kehilangan pekerjaan, atau perbaikan darurat.
-                Simpan di rekening terpisah yang mudah diakses.
-              </p>
             </div>
           </div>
         )}

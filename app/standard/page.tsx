@@ -54,28 +54,28 @@ export default function StandardPage() {
   return (
     <div
       {...swipeHandlers}
-      className="flex flex-col flex-1 items-center justify-center font-sans min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800"
+      className="flex flex-col flex-1 items-center justify-center font-sans min-h-screen bg-neutral-900"
     >
       <main className="flex flex-1 w-full max-w-2xl flex-col items-start py-20 px-6">
         <div className="text-center mb-10 w-full">
-          <h1 className="text-4xl font-bold mb-3 text-gray-900 dark:text-white">
-            Aturan 50/30/20
+          <h1 className="text-5xl font-black mb-3 tracking-tighter text-white uppercase italic">
+            50/30/20
           </h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Standar pengelolaan keuangan yang populer
+          <p className="text-neutral-400 font-mono tracking-widest text-sm uppercase">
+            Aturan alokasi keuangan klasik
           </p>
         </div>
 
-        <div className="w-full rounded-2xl shadow-xl p-8 mb-6 bg-white dark:bg-gray-800">
+        <div className="w-full glass-card brutal-border p-8 mb-6">
           <div className="mb-6">
             <label
               htmlFor="income"
-              className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300"
+              className="block text-sm font-black mb-2 text-white uppercase tracking-wider"
             >
               Penghasilan Bersih (per bulan)
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg text-gray-500 dark:text-gray-400">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-white">
                 Rp
               </span>
               <input
@@ -93,7 +93,7 @@ export default function StandardPage() {
                     setIncome("");
                   }
                 }}
-                className="w-full pl-12 pr-4 py-4 text-lg border rounded-xl focus:ring-2 focus:ring-blue-500 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full pl-12 pr-4 py-4 text-lg border-2 border-white bg-transparent text-white font-bold placeholder-neutral-500 focus:outline-none"
               />
             </div>
           </div>
@@ -101,52 +101,45 @@ export default function StandardPage() {
           <button
             onClick={calculateStandard}
             disabled={!income || isCalculating}
-            className="w-full py-4 text-lg font-semibold text-white bg-purple-600 hover:bg-purple-700 rounded-xl transition-colors disabled:opacity-50"
+            className="w-full py-4 text-xl font-black text-black bg-purple-500 hover:bg-purple-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed uppercase italic tracking-tighter"
           >
             {isCalculating ? "Menghitung..." : "Hitung 50/30/20"}
           </button>
         </div>
 
         {result && (
-          <div className="w-full rounded-2xl shadow-xl p-8 mb-6 bg-white dark:bg-gray-800">
-            <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
-              Hasil Perhitungan 50/30/20
+          <div className="w-full glass-card brutal-border p-8 mb-6 animate-fadeIn">
+            <h2 className="text-3xl font-black mb-6 text-center text-white uppercase italic tracking-tighter">
+              Hasil
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="rounded-xl p-6 text-center bg-red-50 dark:bg-red-900/30">
-                <p className="text-sm mb-1 text-red-600 dark:text-red-400">
-                  Kebutuhan (50%)
+              <div className="border-2 border-red-500 p-6 text-center">
+                <p className="text-xs font-black text-red-400 uppercase tracking-widest">
+                  Kebutuhan
                 </p>
-                <p className="text-xl font-bold text-red-700 dark:text-red-300">
+                <p className="text-lg font-black text-white italic tracking-tighter">
                   {formatCurrency(result.needs)}
                 </p>
               </div>
 
-              <div className="rounded-xl p-6 text-center bg-orange-50 dark:bg-orange-900/30">
-                <p className="text-sm mb-1 text-orange-600 dark:text-orange-400">
-                  Keinginan (30%)
+              <div className="border-2 border-orange-500 p-6 text-center">
+                <p className="text-xs font-black text-orange-400 uppercase tracking-widest">
+                  Keinginan
                 </p>
-                <p className="text-xl font-bold text-orange-700 dark:text-orange-300">
+                <p className="text-lg font-black text-white italic tracking-tighter">
                   {formatCurrency(result.wants)}
                 </p>
               </div>
 
-              <div className="rounded-xl p-6 text-center bg-emerald-50 dark:bg-emerald-900/30">
-                <p className="text-sm mb-1 text-emerald-600 dark:text-emerald-400">
-                  Tabungan (20%)
+              <div className="border-2 border-emerald-500 p-6 text-center">
+                <p className="text-xs font-black text-emerald-400 uppercase tracking-widest">
+                  Tabungan
                 </p>
-                <p className="text-xl font-bold text-emerald-700 dark:text-emerald-300">
+                <p className="text-lg font-black text-white italic tracking-tighter">
                   {formatCurrency(result.savings)}
                 </p>
               </div>
-            </div>
-
-            <div className="mt-6 p-4 rounded-xl bg-gray-50 dark:bg-gray-700">
-              <p className="text-sm text-center text-gray-600 dark:text-gray-300">
-                <span className="font-medium">Total Penghasilan:</span>{" "}
-                {formatCurrency(result.income)}
-              </p>
             </div>
           </div>
         )}

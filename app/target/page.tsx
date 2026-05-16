@@ -74,28 +74,28 @@ export default function TargetPage() {
   return (
     <div
       {...swipeHandlers}
-      className="flex flex-col flex-1 items-center justify-center font-sans min-h-screen bg-linear-to-br from-purple-50 to-pink-100 dark:from-gray-900 dark:to-gray-800"
+      className="flex flex-col flex-1 items-center justify-center font-sans min-h-screen bg-neutral-900"
     >
       <main className="flex flex-1 w-full max-w-2xl flex-col items-start py-20 px-6">
         <div className="text-center mb-10 w-full">
-          <h1 className="text-4xl font-bold mb-3 text-gray-900 dark:text-white">
-            Target Tabungan
+          <h1 className="text-5xl font-black mb-3 tracking-tighter text-white uppercase italic">
+            Target
           </h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Hitung berapa lama untuk mencapai target tabungan Anda
+          <p className="text-neutral-400 font-mono tracking-widest text-sm uppercase">
+            Capai target tabungan impian
           </p>
         </div>
 
-        <div className="w-full rounded-2xl shadow-xl p-8 mb-6 bg-white dark:bg-gray-800">
+        <div className="w-full glass-card brutal-border p-8 mb-6">
           <div className="mb-6">
             <label
               htmlFor="target"
-              className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300"
+              className="block text-sm font-black mb-2 text-white uppercase tracking-wider"
             >
               Target Tabungan
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg text-gray-500 dark:text-gray-400">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-white">
                 Rp
               </span>
               <input
@@ -114,7 +114,7 @@ export default function TargetPage() {
                   }
                 }}
                 onKeyPress={handleKeyPress}
-                className="w-full pl-12 pr-4 py-4 text-lg border rounded-xl focus:ring-2 focus:ring-purple-500 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full pl-12 pr-4 py-4 text-lg border-2 border-white bg-transparent text-white font-bold placeholder-neutral-500 focus:outline-none"
               />
             </div>
           </div>
@@ -122,12 +122,12 @@ export default function TargetPage() {
           <div className="mb-6">
             <label
               htmlFor="monthlySaving"
-              className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300"
+              className="block text-sm font-black mb-2 text-white uppercase tracking-wider"
             >
               Tabungan per Bulan
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg text-gray-500 dark:text-gray-400">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-white">
                 Rp
               </span>
               <input
@@ -146,67 +146,44 @@ export default function TargetPage() {
                   }
                 }}
                 onKeyPress={handleKeyPress}
-                className="w-full pl-12 pr-4 py-4 text-lg border rounded-xl focus:ring-2 focus:ring-purple-500 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full pl-12 pr-4 py-4 text-lg border-2 border-white bg-transparent text-white font-bold placeholder-neutral-500 focus:outline-none"
               />
             </div>
           </div>
 
-          <div className="flex gap-3">
-            <button
-              onClick={calculateTarget}
-              disabled={!targetAmount || !monthlySaving || isCalculating}
-              className="flex-1 py-4 text-lg font-semibold text-white bg-purple-600 hover:bg-purple-700 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isCalculating ? "Menghitung..." : "Hitung Waktu"}
-            </button>
-            {result && (
-              <button
-                onClick={resetCalculator}
-                className="px-6 py-4 text-lg font-medium rounded-xl transition-colors text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
-              >
-                Reset
-              </button>
-            )}
-          </div>
+          <button
+            onClick={calculateTarget}
+            disabled={!targetAmount || !monthlySaving || isCalculating}
+            className="w-full py-4 text-xl font-black text-black bg-pink-500 hover:bg-pink-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed uppercase italic tracking-tighter"
+          >
+            {isCalculating ? "Menghitung..." : "Hitung Waktu"}
+          </button>
         </div>
 
         {result && (
-          <div className="w-full rounded-2xl shadow-xl p-8 mb-6 animate-fadeIn bg-white dark:bg-gray-800">
-            <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
-              Hasil Perhitungan
+          <div className="w-full glass-card brutal-border p-8 mb-6 animate-fadeIn">
+            <h2 className="text-3xl font-black mb-6 text-center text-white uppercase italic tracking-tighter">
+              Hasil
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="rounded-xl p-6 text-center bg-purple-50 dark:bg-purple-900/30">
-                <p className="text-sm mb-1 text-purple-600 dark:text-purple-400">
-                  Waktu yang Dibutuhkan
+              <div className="border-2 border-purple-500 p-6 text-center">
+                <p className="text-xs font-black text-purple-400 uppercase tracking-widest">
+                  Waktu Dibutuhkan
                 </p>
-                <p className="text-3xl font-bold text-purple-700 dark:text-purple-300">
+                <p className="text-2xl font-black text-white italic tracking-tighter">
                   {result.formattedMonths}
                 </p>
-                <p className="text-sm mt-1 text-gray-500 dark:text-gray-400">
-                  {result.monthsNeeded} bulan total
-                </p>
               </div>
 
-              <div className="rounded-xl p-6 text-center bg-blue-50 dark:bg-blue-900/30">
-                <p className="text-sm mb-1 text-blue-600 dark:text-blue-400">
+              <div className="border-2 border-blue-500 p-6 text-center">
+                <p className="text-xs font-black text-blue-400 uppercase tracking-widest">
                   Tabungan per Bulan
                 </p>
-                <p className="text-3xl font-bold text-blue-700 dark:text-blue-300">
+                <p className="text-2xl font-black text-white italic tracking-tighter">
                   {formatCurrency(result.monthlySaving)}
                 </p>
-                <p className="text-sm mt-1 text-gray-500 dark:text-gray-400">
-                  needed to reach target
-                </p>
               </div>
-            </div>
-
-            <div className="mt-6 p-4 rounded-xl bg-gray-50 dark:bg-gray-700">
-              <p className="text-sm text-center text-gray-600 dark:text-gray-300">
-                <span className="font-medium">Target Total:</span>{" "}
-                {formatCurrency(result.targetAmount)}
-              </p>
             </div>
           </div>
         )}
