@@ -74,28 +74,28 @@ export default function TargetPage() {
   return (
     <div
       {...swipeHandlers}
-      className="flex flex-col flex-1 items-center justify-center font-sans min-h-screen bg-neutral-900"
+      className="flex flex-col flex-1 items-center justify-center font-sans min-h-screen bg-[var(--background)] text-[var(--foreground)]"
     >
       <main className="flex flex-1 w-full max-w-2xl flex-col items-start py-20 px-6">
         <div className="text-center mb-10 w-full">
-          <h1 className="text-5xl font-black mb-3 tracking-tighter text-white uppercase italic">
+          <h1 className="text-5xl font-black mb-3 tracking-tighter uppercase italic text-[var(--foreground)]">
             Target
           </h1>
-          <p className="text-neutral-400 font-mono tracking-widest text-sm uppercase">
+          <p className="font-mono tracking-widest text-sm uppercase opacity-70">
             Capai target tabungan impian
           </p>
         </div>
 
-        <div className="w-full glass-card brutal-border p-8 mb-6">
+        <div className="w-full glass-card p-8 mb-6 brutal-shadow">
           <div className="mb-6">
             <label
               htmlFor="target"
-              className="block text-sm font-black mb-2 text-white uppercase tracking-wider"
+              className="block text-sm font-black mb-2 uppercase tracking-wider"
             >
               Target Tabungan
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-white">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold">
                 Rp
               </span>
               <input
@@ -114,7 +114,7 @@ export default function TargetPage() {
                   }
                 }}
                 onKeyPress={handleKeyPress}
-                className="w-full pl-12 pr-4 py-4 text-lg border-2 border-white bg-transparent text-white font-bold placeholder-neutral-500 focus:outline-none"
+                className="w-full pl-12 pr-4 py-4 text-lg brutal-border bg-[var(--background)] font-bold placeholder-opacity-50 focus:outline-none"
               />
             </div>
           </div>
@@ -122,12 +122,12 @@ export default function TargetPage() {
           <div className="mb-6">
             <label
               htmlFor="monthlySaving"
-              className="block text-sm font-black mb-2 text-white uppercase tracking-wider"
+              className="block text-sm font-black mb-2 uppercase tracking-wider"
             >
               Tabungan per Bulan
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-white">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold">
                 Rp
               </span>
               <input
@@ -146,7 +146,7 @@ export default function TargetPage() {
                   }
                 }}
                 onKeyPress={handleKeyPress}
-                className="w-full pl-12 pr-4 py-4 text-lg border-2 border-white bg-transparent text-white font-bold placeholder-neutral-500 focus:outline-none"
+                className="w-full pl-12 pr-4 py-4 text-lg brutal-border bg-[var(--background)] font-bold placeholder-opacity-50 focus:outline-none"
               />
             </div>
           </div>
@@ -154,33 +154,33 @@ export default function TargetPage() {
           <button
             onClick={calculateTarget}
             disabled={!targetAmount || !monthlySaving || isCalculating}
-            className="w-full py-4 text-xl font-black text-black bg-pink-500 hover:bg-pink-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed uppercase italic tracking-tighter"
+            className="w-full py-4 text-xl font-black bg-[var(--accent)] text-[var(--accent-text)] brutal-shadow border-2 border-[var(--foreground)] transition-all hover:translate-x-1 hover:translate-y-1 hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed uppercase italic tracking-tighter"
           >
             {isCalculating ? "Menghitung..." : "Hitung Waktu"}
           </button>
         </div>
 
         {result && (
-          <div className="w-full glass-card brutal-border p-8 mb-6 animate-fadeIn">
-            <h2 className="text-3xl font-black mb-6 text-center text-white uppercase italic tracking-tighter">
+          <div className="w-full glass-card p-8 mb-6 animate-fadeIn brutal-shadow">
+            <h2 className="text-3xl font-black mb-6 text-center uppercase italic tracking-tighter">
               Hasil
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="border-2 border-purple-500 p-6 text-center">
-                <p className="text-xs font-black text-purple-400 uppercase tracking-widest">
+              <div className="brutal-border p-6 text-center">
+                <p className="text-xs font-black uppercase tracking-widest text-[var(--foreground)]">
                   Waktu Dibutuhkan
                 </p>
-                <p className="text-2xl font-black text-white italic tracking-tighter">
+                <p className="text-2xl font-black italic tracking-tighter">
                   {result.formattedMonths}
                 </p>
               </div>
 
-              <div className="border-2 border-blue-500 p-6 text-center">
-                <p className="text-xs font-black text-blue-400 uppercase tracking-widest">
+              <div className="brutal-border p-6 text-center">
+                <p className="text-xs font-black uppercase tracking-widest text-[var(--foreground)]">
                   Tabungan per Bulan
                 </p>
-                <p className="text-2xl font-black text-white italic tracking-tighter">
+                <p className="text-2xl font-black italic tracking-tighter">
                   {formatCurrency(result.monthlySaving)}
                 </p>
               </div>

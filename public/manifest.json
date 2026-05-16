@@ -1,6 +1,6 @@
 {
-  "name": "TabungPintar - Kalkulator Menabung Ideal",
-  "short_name": "TabungPintar",
+  "name": "Tabung Pintar - Kalkulator Menabung Ideal",
+  "short_name": "Tabung Pintar",
   "description": "Hitung berapa persen yang ideal untuk menabung dari penghasilan Anda",
   "start_url": "/",
   "display": "standalone",
@@ -42,14 +42,14 @@
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "TabungPintar home screen"
+      "label": "Tabung Pintar home screen"
     },
     {
       "src": "/screenshot2.png",
       "sizes": "750x1334",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "TabungPintar calculator"
+      "label": "Tabung Pintar calculator"
     }
   ]
 }

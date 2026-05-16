@@ -15,15 +15,15 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "TabungPintar - Kalkulator Menabung Ideal",
-    template: "%s | TabungPintar"
+    default: "Tabung Pintar - Kalkulator Menabung Ideal",
+    template: "%s | Tabung Pintar"
   },
   description: "Hitung berapa persen yang ideal untuk menabung dari penghasilan Anda",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "TabungPintar",
+    title: "Tabung Pintar",
   },
 };
 
